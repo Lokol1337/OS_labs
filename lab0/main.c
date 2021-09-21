@@ -45,7 +45,7 @@ if (dir != NULL){
 		}
 		stat(bufTotal,&statFile);
 		free(bufTotal);
-		printf("total %x\n", statFile.st_blocks);	
+		printf("total %d\n", statFile.st_blocks);	
 		while (curDir = readdir(dir)){
 			if(curDir->d_name[0] != '.'){
 				if(dirFlag == 1){
