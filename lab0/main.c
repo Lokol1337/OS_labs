@@ -45,7 +45,7 @@ if (dir != NULL){
 		}
 		stat(bufTotal,&statFile);
 		free(bufTotal);
-		printf("total %d\n", statFile.st_blocks);	
+		printf("total %ld\n", statFile.st_blocks);	
 		while (curDir = readdir(dir)){
 			if(curDir->d_name[0] != '.'){
 				if(dirFlag == 1){
@@ -84,11 +84,11 @@ if (dir != NULL){
 					printf(" %d", statFile.st_nlink);					
 
 					struct passwd* user = getpwuid(statFile.st_uid);
-					if(user->pw_name)
+					if(user != 0)
 						printf(" %s", user->pw_name);
 					
 					struct group* group = getgrgid(statFile.st_gid);
-					if(group->gr_name)
+					if(group != 0)
 						printf(" %s", group->gr_name);
 					
 					printf(" %ld", statFile.st_size);
