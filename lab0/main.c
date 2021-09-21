@@ -84,12 +84,14 @@ if (dir != NULL){
 					printf(" %d", statFile.st_nlink);					
 
 					struct passwd* user = getpwuid(statFile.st_uid);
-					printf(" %s", user->pw_name);
+					if(user->pw_name)
+						printf(" %s", user->pw_name);
 					
 					struct group* group = getgrgid(statFile.st_gid);
-					printf(" %s", group->gr_name);
+					if(group->gr_name)
+						printf(" %s", group->gr_name);
 					
-					printf(" %d", statFile.st_size);
+					printf(" %ld", statFile.st_size);
 
 					switch(localtime(&statFile.st_ctime)->tm_mon){
 						case 0: printf(" Jan"); break;
