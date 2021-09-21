@@ -39,13 +39,19 @@ if(dirFlag == 0)
 
 if (dir != NULL){
 	if((flag = getopt(argc,argv,"l")) != -1){
-		char *bufTotal = malloc(strlen(argv[countDir]));
-		for(int i = 0;i < strlen(argv[countDir])-1; i++){
-			bufTotal[i] = argv[countDir][i];	
+		if(dirFlag != 0){
+			char *bufTotal = malloc(strlen(argv[countDir]));
+			for(int i = 0;i < strlen(argv[countDir])-1; i++){
+				bufTotal[i] = argv[countDir][i];	
+			}
+			stat(bufTotal,&statFile);
+			free(bufTotal);
+			printf("total %ld\n", statFile.st_blocks);
 		}
-		stat(bufTotal,&statFile);
-		free(bufTotal);
-		printf("total %ld\n", statFile.st_blocks);	
+		else{
+			stat("./", &statFile);
+			printf("total %ld\n", statFile.st_blocks);
+		}	
 		while (curDir = readdir(dir)){
 			if(curDir->d_name[0] != '.'){
 				if(dirFlag == 1){
