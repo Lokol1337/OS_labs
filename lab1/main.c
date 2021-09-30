@@ -5,7 +5,7 @@
 
 
 void function(){
-	printf("atexit отработал -- Ребёнок:%d -- Родитель:%d\n",getpid(), getppid());
+	printf("atexit отработал --PID:%d -- PPID:%d\n",getpid(), getppid());
 }
 
 int main(int argc, char** argv){
