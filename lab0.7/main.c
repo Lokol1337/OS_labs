@@ -12,32 +12,66 @@ void input(char* pathArch,char* pathFile){
 	char *buf = NULL;
 	struct stat statFile;
 	mode_t curmode;
-	if(((arch = fopen(pathArch, "a")) != NULL)){
-		if(((file = fopen(pathFile, "r")) != NULL)){
-			fseek (file, 0, SEEK_END);
-			sizeFile = ftell(file);
-			fseek (file, 0, SEEK_SET);
-			buf = malloc (sizeFile);
-			if(buf)
-			{
-				fread (buf, 1, sizeFile, file);
+	int flag = 0;
+	long long int bufNameSize = 0;
+	char* bufName;
+	long long int bufCon = 0;
+	mode_t bufMode;
+	if(((arch = fopen(pathArch, "r")) != NULL)){
+		while((fscanf(arch, "%d", &bufNameSize)) != EOF){	
+			fgetc(arch);
+			bufName = malloc(bufNameSize);
+			fread(bufName, 1, bufNameSize,arch);
+			fgetc(arch);
+			if(strcmp(bufName,pathFile) == 0){
+				printf("%s : Файл уже существует в архиве %s\n",pathFile,pathArch);
+				flag = 1;
+				fclose(arch);
+				break;
 			}
-		
-			stat(pathFile, &statFile);
+			fscanf(arch, "%d", &bufMode);
+			fgetc(arch);
+			fscanf(arch, "%d", &bufCon);
+			fgetc(arch);
+			for(int i = 0;i < bufCon; i++){
+				fgetc(arch);
+			}
 			
-			fprintf(arch, "%d\n", strlen(pathFile));
-			fprintf(arch, "%s\n", pathFile);
-			fprintf(arch, "%d\n", statFile.st_mode);
-			fprintf(arch, "%d\n", sizeFile);
-			fprintf(arch, "%s", buf);
-
-			fclose (file);	
 		}
-		fclose(arch);
+			
 	}
+
+	if(flag == 0){
+		if(((arch = fopen(pathArch, "a")) != NULL)){
+			if(((file = fopen(pathFile, "r")) != NULL)){
+				fseek (file, 0, SEEK_END);
+				sizeFile = ftell(file);
+				fseek (file, 0, SEEK_SET);
+				buf = malloc (sizeFile);
+				if(buf)
+				{
+					fread (buf, 1, sizeFile, file);
+				}
+		
+				stat(pathFile, &statFile);
+				
+				fprintf(arch, "%d\n", strlen(pathFile));
+				fprintf(arch, "%s\n", pathFile);
+				fprintf(arch, "%d\n", statFile.st_mode);
+				fprintf(arch, "%d\n", sizeFile);
+				fprintf(arch, "%s", buf);
 	
-	else
-		exit(1);
+				fclose (file);	
+			}
+			else{
+				printf("Не удалось открыть файл %s.\n" , pathFile);
+			}
+			fclose(arch);
+		}
+	
+		else
+			exit(1);
+	}
 }
 
 void extract(char* pathArch, char* pathFile){
@@ -93,8 +127,9 @@ void extract(char* pathArch, char* pathFile){
 		if(flag == 1){
 			afterSize = fileSize - ftell(arch);
 			delSize = ftell(arch) - beforeSize;
-		}
+		}		
 		else{
+			printf("Файл %s не существует в архиве %s.\n",pathFile,pathArch);
 			fclose(arch);
 			exit(1);
 		}
