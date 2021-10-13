@@ -97,7 +97,13 @@ void extract(char* pathArch, char* pathFile){
 			if((fscanf(arch, "%d", &bufNameSize)) == EOF){
 				break;
 			}
-			beforeSize = ftell(arch);
+			long long int buf = bufNameSize;
+			int count = 0;
+			while(buf!=0){
+				count++;
+				buf /= 10;
+			}
+			beforeSize = ftell(arch) - count;
 			fgetc(arch);
 			bufName = malloc(bufNameSize);
 			fread(bufName, 1, bufNameSize, arch);
