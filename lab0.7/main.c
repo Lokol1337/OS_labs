@@ -164,7 +164,7 @@ void extract(char* pathArch, char* pathFile){
 	if((arch = fopen(pathArch, "w")) != NULL){
 		
 		if(before){
-			fwrite(before, beforeSize - 1, 1, arch);
+			fwrite(before, beforeSize, 1, arch);
 		}
 		if(after){;
 			fwrite(after, afterSize, 1, arch);
