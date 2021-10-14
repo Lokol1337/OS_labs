@@ -41,9 +41,10 @@ void input(char* pathArch,char* pathFile){
 			
 	}
 	else{
-		if(pathArch == 0)
+		if(pathArch == 0){
 			printf("Введите название архива!\n");
-		exit(1);
+			exit(1);
+		}
 	}
 
 	if(flag == 0){
@@ -147,6 +148,10 @@ void extract(char* pathArch, char* pathFile){
 		
 	}
 	else{
+		if(pathArch == NULL){
+			printf("Введите название архива!\n");
+			exit(1);
+		}
 		printf("Не удалось открыть %s\n",pathArch);
 		exit(1);
 	}		
