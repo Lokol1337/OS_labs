@@ -146,6 +146,10 @@ void extract(char* pathArch, char* pathFile){
 		}
 		
 	}
+	else{
+		printf("Не удалось открыть %s\n",pathArch);
+		exit(1);
+	}		
 
 	fseek(arch, 0, SEEK_SET);
 	
@@ -220,6 +224,14 @@ void stats(char* pathArch){
 		printf("Всего файлов: %d\nС общим весом: %d\n", bufCount, bufCap);
 
 	}
+	else{
+		if(pathArch == NULL){
+			printf("Введите название архива!\n");
+			exit(1);
+		}
+		
+		printf("Не удалось открыть %s\n", pathArch);
+	}	
 }
 
 void help(){
