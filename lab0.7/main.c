@@ -40,6 +40,11 @@ void input(char* pathArch,char* pathFile){
 		}
 			
 	}
+	else{
+		if(pathArch == 0)
+			printf("Введите название архива!\n");
+		exit(1);
+	}
 
 	if(flag == 0){
 		if(((arch = fopen(pathArch, "a")) != NULL)){
