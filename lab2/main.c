@@ -12,7 +12,9 @@ int main(int argc, char** argv){
 	int flag = 0;
 	char group = ' ';
 	char addRem = ' ';
-	int r = 0,w = 0,x = 0;
+	int r = 0;
+	int w = 0;
+	int x = 0;
 	mode_t changes = 00000; 
 	
 	if(argv[argc - 1][0] != '-')
@@ -54,7 +56,7 @@ int main(int argc, char** argv){
                                         group = 'o';
                                 break;
 			case 'a':
-				if(argv[1][2] != 'a'){
+				if(argv[1][2] != 'a' || group == ' ' || addRem != ' '){
 					printf("Неправильный запрос!\n");
 					return 1;
 				}
@@ -65,7 +67,7 @@ int main(int argc, char** argv){
 				if(argv[1][2] == 'r' && group != ' '){
 					addRem = 'r';
 				}
-				else if((argv[1][3] == 'r' || argv[1][4] == 'r' || argv[1][5] == 'r') && group != ' ' && r == 0){
+				else if((argv[1][3] == 'r' || argv[1][4] == 'r' || argv[1][5] == 'r') && group != ' ' && r == 0 && addRem != 'r'){
 					if(group == 'u')
 						changes += 00400;
 					if(group == 'g')
@@ -118,6 +120,10 @@ int main(int argc, char** argv){
 	if(file != NULL){
 		if(access(file,0) == 0){
 			stat(file,&stFile);
+			if(changes == 00000){
+				printf("Неправильный запрос!\n");
+				return 1;
+			}
 		}
 		else{
 			printf("Файл не существует!\n");
