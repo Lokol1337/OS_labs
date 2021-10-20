@@ -69,11 +69,11 @@ int main(int argc, char** argv){
 				}
 				else if((argv[1][3] == 'r' || argv[1][4] == 'r' || argv[1][5] == 'r') && group != ' ' && r == 0){
 					if(group == 'u')
-						changes += 00400;
+						changes += S_IRUSR;
 					if(group == 'g')
-						changes += 00040;
+						changes += S_IRGRP;
 					if(group == 'o')
-						changes += 00004;
+						changes += S_IROTH;
 					r = 1;
 				}
 				else{
@@ -84,11 +84,11 @@ int main(int argc, char** argv){
 			case 'w':
 				if((argv[1][3] == 'w' || argv[1][4] == 'w' || argv[1][5] == 'w') && group != ' ' && w == 0){
 					if(group == 'u')
-                                                changes += 00200;
+                                                changes += S_IWUSR;
                                         if(group == 'g')
-                                                changes += 00020;
+                                                changes += S_IWGRP;
                                         if(group == 'o')
-                                                changes += 00002;	
+                                                changes += S_IWOTH;	
 					w = 1;
 				}
 				else{
@@ -99,11 +99,11 @@ int main(int argc, char** argv){
 			case 'x':
 				if((argv[1][3] == 'x' || argv[1][4] == 'x' || argv[1][5] == 'x') && group != ' ' && x == 0){
                                         if(group == 'u')
-                                                changes += 00100;
+                                                changes += S_IXUSR;
                                         if(group == 'g')
-                                                changes += 00010;
+                                                changes += S_IXGRP;
                                         if(group == 'o')
-                                                changes += 00001;
+                                                changes += S_IXOTH;
 					x = 1;
                                 }
                                 else{
