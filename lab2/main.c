@@ -64,10 +64,10 @@ int main(int argc, char** argv){
 					addRem = 'a';
 				break;
 			case 'r':
-				if(argv[1][2] == 'r' && group != ' '){
+				if(argv[1][2] == 'r' && group != ' ' && addRem == ' '){
 					addRem = 'r';
 				}
-				else if((argv[1][3] == 'r' || argv[1][4] == 'r' || argv[1][5] == 'r') && group != ' ' && r == 0 && addRem != 'r'){
+				else if((argv[1][3] == 'r' || argv[1][4] == 'r' || argv[1][5] == 'r') && group != ' ' && r == 0){
 					if(group == 'u')
 						changes += 00400;
 					if(group == 'g')
