@@ -7,7 +7,7 @@ static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 int num = 0;
 void* funW(void* data){
 	int i = 0;
-	while(i != 10){
+	while(1){
 		i += 1;
 		pthread_mutex_lock(&mutex);
 		num = num + 1;
@@ -18,7 +18,8 @@ void* funW(void* data){
 
 void* funR(void* data){
 	int i = 0;
-	while(i != 10){
+	while(1){
+		i += 1;
 		pthread_mutex_lock(&mutex);
 		printf("thread id: %lu\nnum status: %d\n",pthread_self(), num);
 		pthread_mutex_unlock(&mutex);
@@ -31,7 +32,6 @@ void* funR(void* data){
 int main(int argc, char** argv){
 
 		
-
 	pthread_t w,r[10];
 	
 	pthread_create(&w, NULL, funW, NULL);
