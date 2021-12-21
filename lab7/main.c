@@ -3,11 +3,11 @@
 #include <pthread.h>
 #include <unistd.h>
 
-static pthread_rwlockattr_t rwlock = PTHREAD_RWLOCK_INITIALIZER;
+static pthread_rwlock_t rwlock = PTHREAD_RWLOCK_INITIALIZER;
 int num = 0;
 void* funW(void* data){
 	while(1){
-		pthread_rwlock_trywrlock(&rwlock);
+		pthread_rwlock_wrlock(&rwlock);
 		num = num + 1;	
 		pthread_rwlock_unlock(&rwlock);
 		sleep(1);
@@ -16,7 +16,7 @@ void* funW(void* data){
 
 void* funR(void* data){
 	while(1){
-		pthread_rwlock_tryrdlock(&rwlock);
+		pthread_rwlock_rdlock(&rwlock);
 		printf("thread id: %lu\nnum status: %d\n",pthread_self(), num);
 		pthread_rwlock_unlock(&rwlock);
 		sleep(1);
@@ -36,8 +36,9 @@ int main(int argc, char** argv){
 		pthread_create(&r[i], NULL, funR, NULL);
 	}
 	
-	pthread_rwlock_destroy(&rwlock);
 	pthread_join(w,NULL);		
+	pthread_rwlock_destroy(&rwlock);
+
 	return 0;
 
 }
