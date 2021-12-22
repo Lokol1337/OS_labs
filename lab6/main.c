@@ -14,6 +14,7 @@ void* funW(void* data){
 		pthread_mutex_unlock(&mutex);
 		sleep(1);
 	}
+	pthread_exit(NULL);
 }
 
 void* funR(void* data){
@@ -41,7 +42,12 @@ int main(int argc, char** argv){
 
 	pthread_mutex_destroy(&mutex);
 	pthread_cond_destroy(&cond);
+	
+	for(int i = 0;i < 10;i++){
+		pthread_join(r[i],NULL);	
+	}
 	pthread_join(w,NULL);	
+	
 	
 	return 0;
 

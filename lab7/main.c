@@ -12,6 +12,7 @@ void* funW(void* data){
 		pthread_rwlock_unlock(&rwlock);
 		sleep(1);
 	}
+	pthread_exit(NULL);
 }
 
 void* funR(void* data){
@@ -36,7 +37,11 @@ int main(int argc, char** argv){
 		pthread_create(&r[i], NULL, funR, NULL);
 	}
 	
+
 	pthread_join(w,NULL);		
+	for(int i = 0; i < 10;i++){
+		pthread_join(r[i],NULL);
+	}
 	pthread_rwlock_destroy(&rwlock);
 
 	return 0;
